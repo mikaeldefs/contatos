@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Contato } from 'src/app/models/Contato';
 
 @Component({
   selector: 'app-create-contato',
@@ -7,7 +8,12 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class CreateContatoComponent implements OnInit {
 
-  @Output() ocultarModalClick:EventEmitter<null> = new EventEmitter()
+  @Output() ocultarModalClick:EventEmitter<null> = new EventEmitter();
+  novoContato:Contato = {
+    nome:"",
+    email:"",
+    telefones:[""]
+  }
 
   constructor() { }
 
@@ -17,6 +23,10 @@ export class CreateContatoComponent implements OnInit {
   ocultar(){
     this.ocultarModalClick.emit();
     console.log('Sair!')
+  }
+
+  track(index:number, value:string){
+    return index;
   }
 
 }
