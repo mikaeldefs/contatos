@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Contato } from 'src/app/models/Contato';
+import { ContatoService } from 'src/app/services/contato.service';
 
 @Component({
   selector: 'app-create-contato',
@@ -14,6 +15,8 @@ export class CreateContatoComponent implements OnInit {
     email:"",
     telefones:[""]
   }
+
+  cs:ContatoService = new ContatoService();
 
   constructor() { }
 
@@ -37,6 +40,19 @@ export class CreateContatoComponent implements OnInit {
     console.log(pos);
     this.novoContato.telefones.splice(pos, 1);
   }
-  
 
+  salvar(){
+    this.cs.addContato(this.novoContato);
+
+    // Se quiser fazer a tela sumir depois de add um contato
+    this.ocultarModalClick.emit();
+
+    // Manter a tela e limpar os campos
+    // this.novoContato = {
+    //   nome:"",
+    //   email:"",
+    //   telefones:[""]
+    // }
+  }
+  
 }
