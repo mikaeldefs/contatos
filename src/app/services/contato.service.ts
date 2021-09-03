@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Contato } from '../models/Contato';
 
 @Injectable({
@@ -8,9 +8,11 @@ export class ContatoService {
 
     private readonly chave:string = "CONTATOS";
 
-  constructor() { }
+    static onContatosMudaram:EventEmitter<Contato[]> = new EventEmitter();
 
-  getContatos():Contato[] {
+    constructor() { }
+
+    getContatos():Contato[] {
     
     // *tentar* carregar os dados da localStorage
     let dados = window.localStorage.getItem(this.chave);
@@ -30,8 +32,7 @@ export class ContatoService {
   }
 
   addContato(c:Contato): void {
-    
-
+  
     // Levantar os contatos do localStorage para um array de contatos
     let contatos = this.getContatos();
 
@@ -40,6 +41,9 @@ export class ContatoService {
 
     // Salvar o array de volta no localStorage
     window.localStorage.setItem(this.chave, JSON.stringify(contatos));
+
+    // Emitindo evento "contatos mudaram"
+    ContatoService.onContatosMudaram.emit(contatos);
 
   }
 
